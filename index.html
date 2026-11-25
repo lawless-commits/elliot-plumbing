@@ -170,14 +170,9 @@ input[type=range]{flex:1;accent-color:var(--blue);height:28px}
 .result-actions .btn-ghost{color:#fff}
 
 /* Coverage & process */
-.cov{display:grid;grid-template-columns:1fr 1.1fr;gap:2rem;align-items:start}
-@media (max-width:900px){.cov{grid-template-columns:1fr}}
 .area-btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
 .area-btns button{font:inherit;font-weight:700;padding:.65rem 1.1rem;border-radius:999px;border:2px solid var(--line);background:#fff;color:var(--slate);cursor:pointer}
 .area-btns button[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
-.map{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
-.map .zone{transition:fill .2s,opacity .2s;opacity:.35}
-.map .zone.active{opacity:1}
 .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:.6rem 0 1rem}
 .steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;counter-reset:s}
 @media (max-width:980px){.steps{grid-template-columns:repeat(2,1fr)}}
@@ -441,7 +436,6 @@ footer a:hover{color:#fff;text-decoration:underline}
       <span class="eyebrow">Coverage &amp; Process</span>
       <h2>Where we work and how a job runs</h2>
     </div>
-    <div class="cov">
       <div>
         <div class="area-btns" role="group" aria-label="Choose an area">
           <button type="button" aria-pressed="true" data-area="kyalami">Kyalami</button>
@@ -455,23 +449,6 @@ footer a:hover{color:#fff;text-decoration:underline}
           <a class="btn btn-wa btn-sm" id="a-wa" href="#"><svg aria-hidden="true"><use href="#i-wa"/></svg>Check my suburb on WhatsApp</a>
         </div>
       </div>
-      <!-- Schematic, not to scale -->
-      <svg class="map" viewBox="0 0 420 300" role="img" aria-labelledby="map-t">
-        <title id="map-t">Schematic coverage map showing Kyalami, Midrand and greater Johannesburg</title>
-        <rect width="420" height="300" fill="#F8FAFC"/>
-        <path d="M0 230 C120 200 250 250 420 210" stroke="#E2E8F0" stroke-width="10" fill="none"/>
-        <path d="M210 0 V300" stroke="#E2E8F0" stroke-width="8"/>
-        <text x="216" y="18" font-size="11" fill="#94A3B8" font-family="system-ui">N1 / M1 corridor (schematic)</text>
-        <path class="zone" data-zone="jhb" d="M40 175 Q60 120 150 130 L270 140 Q360 150 380 210 Q340 285 210 288 Q70 285 40 175z" fill="#0284C7"/>
-        <path class="zone" data-zone="midrand" d="M150 40 Q250 20 300 60 Q330 110 285 140 Q210 160 150 135 Q115 90 150 40z" fill="#0D9488"/>
-        <circle class="zone" data-zone="kyalami" cx="275" cy="120" r="34" fill="#D97706"/>
-        <g font-family="system-ui" font-weight="700" fill="#0F172A" font-size="14">
-          <text x="180" y="85">Midrand</text>
-          <text x="248" y="124" fill="#fff" font-size="12">Kyalami</text>
-          <text x="150" y="230">Johannesburg</text>
-        </g>
-      </svg>
-    </div>
 
     <h3 style="margin-top:3.5rem">Our 4-step process</h3>
     <ol class="steps">
@@ -817,7 +794,6 @@ const areaBtns = $$("[data-area]");
 function showArea(btn) {
   const k = btn.dataset.area, c = COVERAGE[k];
   areaBtns.forEach(b => b.setAttribute("aria-pressed", b === btn));
-  $$(".map .zone").forEach(z => z.classList.toggle("active", z.dataset.zone === k));
   $("#a-title").textContent = c.title; $("#a-text").textContent = c.text;
   $("#a-chips").replaceChildren(...c.chips.map(t => Object.assign(document.createElement("span"), { className: "chip", textContent: t })));
   setWa($("#a-wa"), `Hi Elliot Plumbing, do you cover my suburb in ${c.title}? My suburb is: `);
